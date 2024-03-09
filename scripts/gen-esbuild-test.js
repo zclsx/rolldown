@@ -177,23 +177,21 @@ for (let i = 0, len = tree.rootNode.namedChildren.length; i < len; i++) {
 }
 
 function calculatePrefix(stringList) {
-  if (stringList.length < 2) {
-    return ''
+  if (!stringList.length) return '';
+  if (stringList.length === 1) return stringList[0];
+
+  // Sort the array
+  stringList.sort();
+
+  const first = stringList[0];
+  const last = stringList[stringList.length - 1];
+  let prefixEnd = 0;
+
+  while (prefixEnd < first.length && first.charAt(prefixEnd) === last.charAt(prefixEnd)) {
+    prefixEnd++;
   }
-  let res = ''
-  while (true) {
-    if (stringList[0][res.length]) {
-      res += stringList[0][res.length]
-    } else {
-      break
-    }
-    for (let i = 0; i < stringList.length; i++) {
-      if (!stringList[i].startsWith(res)) {
-        return res.slice(0, res.length - 1)
-      }
-    }
-  }
-  return res
+
+  return first.substring(0, prefixEnd);
 }
 
 /**
